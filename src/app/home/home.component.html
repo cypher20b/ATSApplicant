@@ -144,10 +144,16 @@
             } @else{
               <span class="material-symbols-outlined">grid_view</span>
             }
-            <!-- <span class="material-symbols-outlined">grid_view</span> -->
           </button>
-          <input [(ngModel)]="searchString" type="text" class="form-control" placeholder="Seach for a job...">
+          <div class="search-bar d-flex align-items-center">
+            <input class="search-input" type="text" name="" [(ngModel)]="searchString" placeholder="Search" />
+            <button mat-icon-button class="nav-search-icon">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+          <!-- <input [(ngModel)]="searchString" type="text" class="form-control" placeholder="Seach for a job..."> -->
          </span>
+         
         @if (searchString) {
         <button style="position: absolute; right: 1rem; z-index: 24; width: 2.5rem; height: 2.5rem; padding: 0;" matSuffix mat-icon-button aria-label="Clear" (click)="searchString=''">
           <mat-icon fontIcon="close"></mat-icon>
