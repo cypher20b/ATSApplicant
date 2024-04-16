@@ -4,5 +4,5 @@ import { JobsOnMapComponent } from './jobs-on-map/jobs-on-map.component';
 
 export const routes: Routes = [
     {path:'', component:HomeComponent},
-    {path:'/jobs-on-map', component:JobsOnMapComponent}
+    // {path:'/jobs-on-map', component:JobsOnMapComponent}
 ];
