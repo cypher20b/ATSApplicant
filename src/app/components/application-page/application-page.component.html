@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+    </div>
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+    </div>
+    <div class="col-md-6">
+      <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+    </div>
+    <div class="col-md-6">
+      <input type="email" class="form-control" placeholder="Confirm Email" aria-label="Confirm Email">
+    </div>
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Place of Residence" aria-label="Place of Residence">
+    </div>
+    <div class="d-flex col-md-6">
+      <button type="button" class="btn btn-outline-secondary country-code" disabled>Action</button>
+      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split country-code-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="visually-hidden">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu">
+        <input class="dropdown-item" type="text" [(ngModel)]="countryCodeSearchString" name="filter" placeholder="search...">
+        @for(country of countriesWithCallingCode | countryCodeFilter:countryCodeSearchString; track country){
+        <li>
+          <span class="country-list-items dropdown-item gap-3">
+            <span class="country-flag"><img [src]="country.flag" alt="" srcset=""></span>
+            <span class="country-name">{{country.countryName}}</span>
+            <span class="country-dailing-code">{{country.countryCode}}</span>
+          </span>
+        </li>
+        }
+      </ul>
+      <input type="text" class="form-control tel-input" aria-label="Text input with segmented dropdown button">
+    </div>
+    <div class="col-md-6">
+      <div class="dropzone">
+        <input type="file form-control" accept=".pdf"
+          multiple="allowMultipleFiles"
+          (drop)="onFiledrop($event)"
+          (change)="onFileSelected($event)"
+          #fileDropRef />
+        <label *ngIf="!label; else customLabel"
+          for="fileDropRef">Drag and Drop your file or
+          <b class="bold-blue">browse</b>
+        </label>
+        <ng-template #customLabel for="fileDropRef">{{ label }}</ng-template>
+        <div class="allowed-types">
+            Allowed file types: {{ allowedList }}
+        </div>
+        <div *ngIf="!!files">
+            <div>Uploaded:</div>
+            <div *ngFor="let file of files">{{ file.name }}</div>
+        </div>
+          <div *ngIf="incorrectInput" class="error-alert">{{ errorMessage }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
