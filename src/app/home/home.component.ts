@@ -17,6 +17,9 @@ import { JobDetailsComponent } from '../components/shared/job-details/job-detail
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatRippleModule} from '@angular/material/core';
+import { Router } from '@angular/router';
+import { JobDetailsData } from '../shared/interfaces/JobData';
+import { DataService } from '../shared/services/data.service';
 
 
 @Component({
@@ -34,8 +37,29 @@ export class HomeComponent {
   jobLocation =["Remote", "Office", "Hybrid"]
   experienceLevels =["Entry-level", "Middle-level", "Senior-level","Managerial-level"]
   requiredJobSkills = ["Angular", "Html5", "CSS", "SaSS"]
-  jobs = [
-    {favorite:false}
+  jobs:JobDetailsData[] = [ 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'React Developer', favorite:false}, 
+    {JobTitle:'Vue Express Developer', favorite:false}, 
+    {JobTitle:'Laravel Express Developer', favorite:false}, 
+    {JobTitle:'Dino Developer', favorite:false}, 
+    {JobTitle:'Next Express Developer', favorite:false}, 
+    {JobTitle:'Wordpress Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
+    {JobTitle:'Angular Express Developer', favorite:false}, 
   ]
   maxSalary = 300;
   minSalary = 40;
@@ -47,7 +71,7 @@ export class HomeComponent {
   });
   showMobileFilterContainer = false;
   showDesktopFilterContainer = false;
- constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, http: HttpClient, public dialog: MatDialog){
+ constructor(http: HttpClient, public dialog: MatDialog, private router:Router, private dataService:DataService){
   // iconRegistry.addSvgIcon('bookmark', sanitizer.bypassSecurityTrustResourceUrl('/assets/icons/bookmark_ico.svg'))
  }
  
@@ -58,9 +82,14 @@ export class HomeComponent {
  
  saveToFavorite(index:number){}
 
- openJobDetails() {
-  const dialogRef = this.dialog.open(JobDetailsComponent);
+ openJobDetails(job:JobDetailsData) {
+  const dialogRef = this.dialog.open(JobDetailsComponent,{
+    data: job})
   dialogRef.afterClosed().subscribe(result => {
+    if(result) {
+      this.dataService.selectedJob = job;
+      this.router.navigate(['/apply']);
+    }
     console.log(`Dialog result: ${result}`);
   });
 }

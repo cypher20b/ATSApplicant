@@ -9,6 +9,11 @@ import { ApiService } from '../../shared/services/api.service';
 import { CountryCallingCode } from '../../shared/interfaces/country-calling-code';
 import { FormsModule } from '@angular/forms';
 import { CountryCodeFilterPipe } from '../../shared/pipes/country-code-filter.pipe';
+import { JobExperience } from '../../shared/interfaces/job-experience';
+import { EducationalBackground } from '../../shared/interfaces/educational-background';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { DataService } from '../../shared/services/data.service';
+
 @Component({
   selector: 'app-application-page',
   standalone: true,
@@ -19,7 +24,8 @@ import { CountryCodeFilterPipe } from '../../shared/pipes/country-code-filter.pi
     FormsModule,
     CountryCodeFilterPipe,
     RouterModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatToolbarModule
   ],
   templateUrl: './application-page.component.html',
   styleUrl: './application-page.component.scss'
@@ -30,14 +36,16 @@ export class ApplicationPageComponent implements OnInit {
     @Input('allowedExtensions') allowedExtensions: string[] = ['.pdf'];
     @Input('allowMultipleFiles') allowMultipleFiles: boolean = false;
     @Output('onFilesDropped') onFilesDropped: EventEmitter<FileList> = new EventEmitter<FileList>();
-    
+    experienceList:JobExperience[]=[];
+    educationList:EducationalBackground[]=[];
     allowedList!: string;
     incorrectInput: boolean = false;
     errorMessage: string = '';
     files!: File[];
     countriesWithCallingCode:CountryCallingCode[]=[];
+    selectedCountry:CountryCallingCode = {areaCode:'+1',countryName:'',flag:''};
     countryCodeSearchString:string ='';
-    constructor(private apiService:ApiService) { }
+    constructor(private apiService:ApiService, public dataService:DataService) { }
     
     
     ngOnInit() {
@@ -49,7 +57,7 @@ export class ApplicationPageComponent implements OnInit {
           response.forEach(element => {
             this.countriesWithCallingCode.push({
               flag:element?.flags?.png,
-              countryCode:element?.idd?.root + (element?.idd?.suffixes.length > 1 ? "" : element?.idd?.suffixes[0]),
+              areaCode:element?.idd?.root + (element?.idd?.suffixes.length > 1 ? "" : element?.idd?.suffixes[0]),
               countryName:element?.name?.common
             })
           });
@@ -61,31 +69,29 @@ export class ApplicationPageComponent implements OnInit {
         e.stopPropagation();
         this.handleDrop(e.dataTransfer.files);
     }
-onFileSelected(e: any) {
+    onFileSelected(e: any) {
         this.handleDrop(e.target.files);
     }
-
- handleDrop(files: FileList) {
-    this.errorMessage = '';
-    this.incorrectInput = false;
-    this.files = [];
-    this.incorrectInput = !this.allowMultipleFiles && files.length > 1;
-    if(this.incorrectInput) {
-        this.incorrectInput = true;
-        this.errorMessage = 'Only one file can be specified';
-        return;
+    handleDrop(files: FileList) {
+        this.errorMessage = '';
+        this.incorrectInput = false;
+        this.files = [];
+        this.incorrectInput = !this.allowMultipleFiles && files.length > 1;
+        if(this.incorrectInput) {
+            this.incorrectInput = true;
+            this.errorMessage = 'Only one file can be uploaded';
+            return;
+        }
+        
+        this.incorrectInput = !this.validateExtensions(files);
+        if(this.incorrectInput) {
+            this.errorMessage = 'Incorrect file type. please make sure your file is in .pdf format';
+            return;
+        }
+        
+        this.files = Array.from(files);
+        this.onFilesDropped.emit(files);
     }
-    
-    this.incorrectInput = !this.validateExtensions(files);
-    if(this.incorrectInput) {
-        this.errorMessage = 'Incorrect extension noticed';
-        return;
-    }
-    
-    this.files = Array.from(files);
-    this.onFilesDropped.emit(files);
-}
-
     validateExtensions(files: FileList): boolean {
         if(this.allowedExtensions.length === 0) {
           console.log(this.allowedExtensions)
@@ -103,6 +109,33 @@ onFileSelected(e: any) {
             console.log(valid, forbidden)
             return valid;
     }
+    addExperience(){
+      this.experienceList.push({
+        jobTitle:'',
+        company:'',
+        officeLocation:'',
+        jobDescription:'',
+        from:'',
+        to:'',
+        currentlyWorksHere:false
+      })
+    }
 
+    addEducation(){
+      this.educationList.push({
+        institutionName:'',
+        major:'',
+        degree:'',
+        schoolLocation:'',
+        description:'',
+        from:'',
+        to:'',
+        currentlySchoolHere:false
+      })
+    }
+
+    applyToJob(){
+      
+    }
 
 }
