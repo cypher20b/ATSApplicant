@@ -1,188 +1,18 @@
-<!-- <div class="main-wrap">
-  <div class="container-fluid d-flex h-100">
-    <div class="w-20 d-flex">
-      <div class="filter-header badge rounded-pill bg-light text-muted">
-        <span class="material-symbols-outlined">
-          tune
-          </span>
-          <span>Filter Jobs</span>
-      </div>
-      <div class="job-filters-container w-100 mat-elevation-z4 pt-3">
-        <div class="salary-range filter-item">
-          <span class="d-flex align-center gap-2 pointer"  data-bs-toggle="collapse" data-bs-target="#salaryRange">
-            <span class="material-symbols-outlined">account_balance</span>
-            <h3 class="m-0">Salary Range</h3>
-          </span>
-          <div class="collapse" id="salaryRange">
-            <mat-slider min="20" max="500" showTickMarks>
-              <input [(ngModel)]="minSalary" matSliderStartThumb>
-              <input [(ngModel)]="maxSalary"  matSliderEndThumb>
-            </mat-slider>
-            <span class="d-flex salary-range-txt">
-              <label class="ms-2">${{minSalary}}k/yr</label>
-              <label class="ms-auto me-2">${{maxSalary}}k/yr</label>
-            </span>
-            <section class="example-section">
-              <mat-checkbox color="primary" class="example-margin">Apply salary filter</mat-checkbox>
-            </section>
-          </div>
-        </div>
-        <hr>
-        <div class="job-roles filter-item">
-          <span class="d-flex align-center gap-2 pointer" data-bs-toggle="collapse" data-bs-target="#jobCategories">
-            <span class="material-symbols-outlined">folder</span>
-            <h3 class="m-0">Job Categories</h3>
-          </span>
-          <mat-list class="collapse" id="jobCategories">
-            
-            @for (job of jobRoles; track job) {
-              <mat-list-item>
-                <span class="material-symbols-outlined job-cat-icon m-2" matListItemIcon>
-                  diversity_3
-                  </span>
-                <div matListItemTitle class="d-flex align-items-center job-filter-list-Item">
-                  <h3 class="card-title mb-0"> {{job}}</h3>
-                  <span class="badge ms-auto">14</span>
-                </div>
-              </mat-list-item>
-            }
-          </mat-list>
-        </div>
-        <hr>
-        <div class="job-type filter-item">
-          <span class="d-flex align-center gap-2 pointer" data-bs-toggle="collapse" data-bs-target="#jobTypes">
-            <span class="material-symbols-outlined">work</span>
-            <h3 class="m-0">Job Type</h3>
-          </span>
-          <mat-list class="collapse" id="jobTypes">
-            
-            @for (job of jobTypes; track job) {
-              <mat-list-item>
-                <span class="material-symbols-outlined job-cat-icon m-2" matListItemIcon>business_chip</span>
-                <div matListItemTitle class="d-flex align-items-center job-filter-list-Item">
-                  <h3 class="card-title mb-0"> {{job}}</h3>
-                  <span class="badge ms-auto">14</span>
-                </div>
-              </mat-list-item>
-            }
-          </mat-list>
-        </div>
-        <hr>
-        <div class="job-location filter-item">
-          <span class="d-flex align-center gap-2 pointer" data-bs-toggle="collapse" data-bs-target="#jobLocation">
-            <span class="material-symbols-outlined">
-              person_pin_circle
-              </span>
-            <h3 class="m-0">Location</h3>
-          </span>
-          <mat-list class="collapse" id="jobLocation">
-            
-            @for (job of jobLocation; track job) {
-              <mat-list-item class="elipse-name">
-                <span class="material-symbols-outlined job-cat-icon m-2" matListItemIcon>business_chip</span>
-                <div matListItemTitle class="d-flex align-items-center job-filter-list-Item">
-                  <h3 class="card-title mb-0"> {{job}}</h3>
-                  <span class="badge ms-auto">14</span>
-                </div>
-              </mat-list-item>
-            }
-          </mat-list>
-        </div>
-        <hr>
-        <div class="experience-level filter-item">
-          <span class="d-flex align-center gap-2 pointer" data-bs-toggle="collapse" data-bs-target="#experienceLevels">
-            <span class="material-symbols-outlined">military_tech</span>
-            <h3 class="m-0">Experience Level</h3>
-          </span>
-          <mat-list class="collapse" id="experienceLevels">
-            
-            @for (exp of experienceLevels; track exp) {
-              <mat-list-item>
-                <span class="material-symbols-outlined job-cat-icon m-2" matListItemIcon>business_chip</span>
-                <div matListItemTitle class="d-flex align-items-center job-filter-list-Item">
-                  <h3 class="card-title mb-0">{{exp}}</h3>
-                  <span class="badge ms-auto">14</span>
-                </div>
-              </mat-list-item>
-            }
-          </mat-list>
-        </div>
-        <hr>
-        <div class="date-posted filter-item">
-          <span class="d-flex align-center gap-2 pointer" data-bs-toggle="collapse" data-bs-target="#sortByDate">
-            <span class="material-symbols-outlined">calendar_month</span>
-            <h3 class="m-0">Sort by Date</h3>
-          </span>
-          <mat-list class="collapse" id="sortByDate">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Sort by Date</mat-label>
-              <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                <input matStartDate formControlName="start" placeholder="Start date">
-                <input matEndDate formControlName="end" placeholder="End date">
-              </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            
-              @if (range.controls.start.hasError('matStartDateInvalid')) {
-                <mat-error>Invalid start date</mat-error>
-              }
-              @if (range.controls.end.hasError('matEndDateInvalid')) {
-                <mat-error>Invalid end date</mat-error>
-              }
-            </mat-form-field>
-          </mat-list>
-        </div>
-      </div>
-    </div>
-    <div class="right-container">
-      <div class="mb-3" style="position: relative; height: 2.5rem;">
-        <span  style="position: absolute; z-index: 2; display: flex; width: 100%; gap: 1rem;">
-          <div class="search-bar d-flex align-items-center">
-            <input class="search-input" type="text" name="" [(ngModel)]="searchString" placeholder="Search" />
-            <button mat-icon-button class="nav-search-icon">
-              <mat-icon>search</mat-icon>
-            </button>
-          </div>
-          <button class="ms-auto" mat-icon-button (click)="gridView=!gridView">
-            @if(gridView){
-              <span class="material-symbols-outlined">list</span>
-            } @else{
-              <span class="material-symbols-outlined">grid_view</span>
-            }
-          </button>
-         </span>
-         
-        @if (searchString) {
-        <button style="position: absolute; right: 1rem; z-index: 24; width: 2.5rem; height: 2.5rem; padding: 0;" matSuffix mat-icon-button aria-label="Clear" (click)="searchString=''">
-          <mat-icon fontIcon="close"></mat-icon>
-        </button>
-      }
-      
-      </div>
-      <div [ngClass]="gridView ? 'grid-job-list' : 'list-job-list' ">
-        @for(i of [1,2,3,4,5,6,7,4,5,6]; track i){
-          <div class="card" (click)="openJobDetails()">
-            <div class="card-body p-0">
-              <div class="container">
-                <span class="job-title-container">
-                  <h3 class="card-title"><strong>Angular Developer</strong></h3>
-                  <mat-icon svgIcon="bookmark" class="bookmark-icon" aria-hidden="false" aria-label="bookmark icon" fontIcon="bookmark"></mat-icon>
-                </span>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              </div>
-              <span class="expand-job-details">
-                <span class="material-symbols-outlined">expand_content</span>
-                <span class="d-flex text-center">Details</span>
-              </span>
-            </div>
-          </div>
-        }
-      </div>
-    </div>
-</div>
-</div> -->
 <mat-toolbar>
+  <div class="toolbar-container d-flex">
+    <span class="app-logo">
+      <a class="navbar-brand" href="#">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFqno-o15uF8Ewt3FiPFhfHFZXspX9y9teNZt-xvdNrfxVUGvoSoZgj0bnlcAtKWlPb88&usqp=CAU"
+          alt="Logo" width="30" height="24"
+          class="d-inline-block align-text-top"
+        />
+      </a>
+    </span>
+  </div>
+</mat-toolbar>
+
+<mat-toolbar class="second-navbar">
   <div (click)="drawer.toggle()" matRipple class="mobile-filter-icon-container">
     <span class="d-flex align-items-center gap-3">
       <span class="material-symbols-outlined">
@@ -501,7 +331,7 @@
                   </span>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
-                <span class="expand-job-details" (click)="openJobDetails()">
+                <span class="expand-job-details" (click)="openJobDetails(job)">
                   <span class="material-symbols-outlined">expand_content</span>
                   <span class="d-flex text-center">Details</span>
                 </span>
